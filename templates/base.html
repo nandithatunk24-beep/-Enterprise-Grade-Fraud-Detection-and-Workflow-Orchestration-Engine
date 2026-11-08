@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Transaction Safety Monitor{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="{{ url_for('dashboard') }}"><span class="brand-mark">TS</span><span><strong>Transaction</strong><small>Safety Monitor</small></span></a>
+      <div class="nav-label">WORKSPACE</div>
+      <nav class="nav-links">
+        <a class="nav-link {% if request.endpoint == 'dashboard' %}active{% endif %}" href="{{ url_for('dashboard') }}"><span>▦</span> Overview</a>
+        <a class="nav-link {% if request.endpoint in ['evaluate', 'result'] %}active{% endif %}" href="{{ url_for('evaluate') }}"><span>＋</span> New transfer check</a>
+        <a class="nav-link {% if request.endpoint == 'history' %}active{% endif %}" href="{{ url_for('history') }}"><span>↗</span> Transfer history</a>
+        <a class="nav-link {% if request.endpoint == 'about' %}active{% endif %}" href="{{ url_for('about') }}"><span>ⓘ</span> About the rules</a>
+      </nav>
+      <div class="sidebar-note"><span class="note-icon">✳</span><strong>Rule-based demo</strong><p>Every result is calculated from the transaction details and saved demo history.</p></div>
+      <div class="sidebar-footer"><span class="status-dot"></span> Prototype environment</div>
+    </aside>
+    <main class="main-area">
+      <header class="topbar"><div><span class="eyebrow">TRANSFER WORKSPACE</span><div class="topbar-title">Transaction Safety Monitor</div></div><div class="topbar-right"><span class="demo-pill"><span class="status-dot"></span> Demo mode</span><div class="avatar">TS</div></div></header>
+      <section class="page-content">
+        {% with messages = get_flashed_messages(with_categories=true) %}{% if messages %}<div class="flash-stack">{% for category, message in messages %}<div class="flash {{ category }}">{{ message }}</div>{% endfor %}</div>{% endif %}{% endwith %}
+        {% block content %}{% endblock %}
+        <footer class="page-footer">A simulated workflow for academic demonstration · No real money is moved.</footer>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
